@@ -3,9 +3,14 @@ import { CreateProjectDto } from "./dto/create-project.dto"
 import { UpdateProjectDto } from "./dto/update-project.dto"
 import { TemplateError } from "src/_types"
 import makeProjectBaseImg from "./impl/makeProjectBaseImg"
+import { getStdPipeForId } from "./impl/stdPipeSSE"
 
 @Injectable()
 export class ProjectService {
+  stdPipeForId(uid: string) {
+    return getStdPipeForId(uid)
+  }
+
   async create(createProjectDto: CreateProjectDto) {
     try {
       await makeProjectBaseImg(createProjectDto)

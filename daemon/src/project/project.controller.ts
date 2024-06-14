@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common"
+import { Controller, Get, Post, Body, Patch, Param, Delete, Sse } from "@nestjs/common"
 import { ProjectService } from "./project.service"
 import { CreateProjectDto } from "./dto/create-project.dto"
 import { UpdateProjectDto } from "./dto/update-project.dto"
+import { StdMessageObservable } from "./impl/stdPipeSSE"
 
 @Controller("project")
 export class ProjectController {
@@ -10,6 +11,11 @@ export class ProjectController {
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectService.create(createProjectDto)
+  }
+
+  @Sse("sse/:uid")
+  sse(@Param("uid") uid: string): StdMessageObservable {
+    return this.projectService.stdPipeForId(uid)
   }
 
   @Get()

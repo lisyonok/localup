@@ -7,6 +7,8 @@ export class AuthMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const key = process.env.API_KEY
     const reqKey = req.query.key
+    console.log("New req", req.path, {key, reqKey})
+    console.log({body: req.body})
 
     if (key !== reqKey)
       return res.status(403).send({ message: "Invalid API key", code: "FORBIDDEN", status: 403 } as TemplateError)
